@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "StartFrontEnd",
+            "label": "Start server",
             "type": "npm",
             "script": "start",
             "path": "/",
@@ -10,13 +10,13 @@
             "detail": "starts frontend",
         },
         {
-            "label": "Start Test Client",
+            "label": "Start tests",
             "type": "npm",
             "script": "test",
             "path": "/",
             "group": "test",
             "problemMatcher": [],
-            "detail": "starts test for client"
+            "detail": "starts tests"
         }
     ]
 }

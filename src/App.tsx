@@ -1,26 +1,51 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import { ImageRedactor } from './view/ImageRedactor';
+import { CoordsArrayContext } from './CoordsArray';
 
-function App() {
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            background: '#616161',
+            height: window.innerHeight + "px",
+            width: window.screen.width + "px",
+            padding: "20px",
+            boxSizing: "border-box",
+            margin: 0,
+        },
+        paper: {
+            padding: theme.spacing(2),
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: "column",
+            justifyContent: 'center',
+            color: theme.palette.text.secondary,
+            height: (window.innerHeight - 80) + "px",
+        },
+    }),
+);
+
+
+export default function FullWidthGrid() {
+    const classes = useStyles();
+    const [coords, setCoords] = React.useState({ points: [{ x: 0, y: 0 }] });
+
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App   .tsx</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
+        <div className={classes.root}>
+            <CoordsArrayContext.Provider value={{ coords, setCoords }} >
+                <Grid container spacing={3}>
+                    <Grid item xs={12} sm={6}>
+                        <Paper className={classes.paper}>
+                            <ImageRedactor />
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Paper className={classes.paper}>xs=12 sm=6</Paper>
+                    </Grid>
+                </Grid>
+            </CoordsArrayContext.Provider>
         </div>
     );
 }
-
-export default App;
