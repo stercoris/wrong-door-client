@@ -4,40 +4,38 @@ import React, { useEffect, useRef, useState } from "react";
 import { Point, useCoords } from "../CoordsArrayContext";
 
 const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        container: {
-            display: "flex",
-            flexDirection: "column",
-        },
-    }),
+  createStyles({
+    container: {
+      display: "flex",
+      flexDirection: "column",
+    },
+  })
 );
 
-
-interface CodeViewerProps { }
+interface CodeViewerProps {}
 
 export const CodeViewer: React.FC<CodeViewerProps> = () => {
-    const classes = useStyles();
-    const { coords, setCoords } = useCoords();
+  const classes = useStyles();
+  const { coords, setCoords } = useCoords();
 
-    const points = coords;
+  const updateCoords = () => {
+    const newCoords = [{ x: 20, y: 20 }, ...coords];
+    setCoords(newCoords);
+  };
 
-    const updateCoords = () => {
-        const newPoints = [{ x: 20, y: 20 }, ...points]
-        setCoords(newPoints);
-    }
+  console.log("RERENDER");
 
-    console.log("RERENDER");
+  const renderCodes = (coords: Point[]) =>
+    coords.map((point) => (
+      <p>
+        X - {point.x} ||| Y - {point.y}
+      </p>
+    ));
 
-    function renderCodes(points: Point[]) {
-        points.map((point, i) => {
-            return (<p>X - {point.x} ||| Y - {point.y}</p>)
-        })
-    }
-
-    return (
-        <div className={classes.container} >
-            {renderCodes(points)}a
-            <button onClick={updateCoords}>qfqwfq</button>
-        </div>
-    );
-}
+  return (
+    <div className={classes.container}>
+      {renderCodes(coords)}
+      <button onClick={updateCoords}>Update Coords</button>
+    </div>
+  );
+};
