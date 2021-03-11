@@ -1,7 +1,7 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
 import ImageUploader from 'react-images-upload';
-import { Coords, useCoords } from "../CoordsArray";
+import { Point, useCoords } from "../CoordsArrayContext";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -20,8 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-interface ImageRedactorProps {
-}
+interface ImageRedactorProps { }
 
 export const ImageRedactor: React.FC<ImageRedactorProps> = () => {
     const classes = useStyles();
@@ -31,8 +30,6 @@ export const ImageRedactor: React.FC<ImageRedactorProps> = () => {
     const canvas = useRef<HTMLCanvasElement>(null);
 
     console.log("RERENDER");
-
-
 
     function onDrop(files: File[], pictures: string[]) {
         const new_image = new Image();
@@ -65,8 +62,8 @@ export const ImageRedactor: React.FC<ImageRedactorProps> = () => {
         y -= canvas!.current!.offsetTop;
         console.log(x);
         console.log(y);
-        const new_coords: Coords = coords;
-        new_coords.points.push({
+        const new_coords: Point[] = coords;
+        new_coords.push({
             x: x,
             y: y,
         });

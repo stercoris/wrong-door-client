@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Start server",
+            "label": "start",
             "type": "npm",
             "script": "start",
             "path": "/",
@@ -10,7 +10,7 @@
             "detail": "starts frontend",
         },
         {
-            "label": "Start tests",
+            "label": "test",
             "type": "npm",
             "script": "test",
             "path": "/",
