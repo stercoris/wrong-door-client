@@ -26,9 +26,6 @@ export const DrawPreview: React.FC<DrawPreviewProps> = () => {
 
     const canvas = useRef<HTMLCanvasElement>(null);
 
-    console.log("RERENDER");
-
-
     return (
         <div className={classes.container}>
             <canvas

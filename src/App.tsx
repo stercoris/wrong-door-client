@@ -3,7 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { ImageRedactor } from './view/ImageRedactor';
-import { CoordsArrayContext } from './CoordsArrayContext';
+import { CoordsArrayContext, Line } from './CoordsArrayContext';
 import { CodeViewer } from './view/CodeViewer';
 import { DrawPreview } from './view/DrawPreview';
 
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function App() {
     const classes = useStyles();
-    const [coords, setCoords] = React.useState([{ x: 0, y: 0 }]);
+    const [coords, setCoords] = React.useState([{ from: {}, to: {} } as Line]);
 
     return (
         <div className={classes.root}>

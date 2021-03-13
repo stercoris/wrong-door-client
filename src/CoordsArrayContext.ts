@@ -5,9 +5,14 @@ export interface Point {
     y: number;
 }
 
+export interface Line {
+    from: Point,
+    to: Point,
+}
+
 type CoordsArrayType = {
-    coords: Point[];
-    setCoords: (Coords: Point[]) => void;
+    coords: Line[];
+    setCoords: (Coords: Line[]) => void;
 };
 
 export const CoordsArrayContext = createContext<CoordsArrayType>({ coords: [], setCoords: () => console.warn('no coords provider') });

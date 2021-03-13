@@ -1,7 +1,7 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import ImageUploader from "react-images-upload";
-import { Point, useCoords } from "../CoordsArrayContext";
+import { Line, Point, useCoords } from "../CoordsArrayContext";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,20 +26,30 @@ export const ImageRedactor: React.FC<ImageRedactorProps> = () => {
     const { coords, setCoords } = useCoords();
 
     const [myimg, changeImage] = useState(new Image());
+    const [from, setFrom] = useState({} as Point);
     const canvas = useRef<HTMLCanvasElement>(null);
-
-    console.log("RERENDER");
 
     function onDrop(files: File[], pictures: string[]) {
         const new_image = new Image();
         new_image.src = pictures[pictures.length - 1];
-        console.log(pictures.length);
         changeImage(new_image);
     }
 
     useEffect(() => {
+        const context = canvas!.current!.getContext("2d")!;
+        context.beginPath();
+
+        coords.forEach(line => {
+            context.moveTo(line.from.x, line.from.y);
+            context.lineTo(line.to.x, line.to.y);
+        });
+        context.strokeStyle = '#ff0000';
+        context.stroke();
+    }, [coords]);
+
+    useEffect(() => {
         if (myimg) {
-            canvas!.current!.getContext("2d")!.drawImage(myimg, 0, 0, 700, 700);
+            canvas!.current!.getContext("2d")!.drawImage(myimg, 0, 0, 637, 848);
         }
     }, [myimg]);
 
@@ -61,17 +71,22 @@ export const ImageRedactor: React.FC<ImageRedactorProps> = () => {
         }
         x -= canvas!.current!.offsetLeft;
         y -= canvas!.current!.offsetTop;
-        console.log(x);
-        console.log(y);
-        const newCoords = [
-            ...coords,
-            {
-                x: x,
-                y: y,
-            },
-        ];
-        console.log(coords);
-        setCoords(newCoords);
+        if (e.type === "mouseup") {
+            const newCoords = [
+                ...coords,
+                {
+                    from,
+                    to: {
+                        x: x,
+                        y: y,
+                    }
+                } as Line,
+            ];
+            console.log(coords);
+            setCoords(newCoords);
+        }
+        setFrom({ x, y } as Point);
+
     };
 
     return (
@@ -80,8 +95,9 @@ export const ImageRedactor: React.FC<ImageRedactorProps> = () => {
                 ref={canvas}
                 className={classes.canvas}
                 onMouseDown={handleCanvasClick}
-                width={700}
-                height={700}
+                onMouseUp={handleCanvasClick}
+                width={637}
+                height={848}
             />
             <ImageUploader
                 withIcon={true}
